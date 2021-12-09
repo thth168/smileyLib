@@ -7,8 +7,6 @@ import requests
 import base64
 from datetime import datetime
 
-from requests.models import requote_uri
-
 class smiley:
     """
     The module *smiley* is a python wrapper for the smileycoin-cli command line interface.
@@ -1560,13 +1558,13 @@ class smiley:
         atexit.register(self.stopServer)
 
 
-smileyObject = smiley({
-    'shutDownAfterRun': False,
-    'startServer': True,
-    'rpcUser': "smileyoinrp",
-    'rpcPassword': "EAUbvD7ddK7eiS1izojpb9ZgMdqVsb36dL8KAjDKyzL",
-    'rpcPort': "14243"
-})
-print(json.dumps(smileyObject.addcoupon("test", "test",
-      "test", datetime.now(), 10, "test"), indent=4))
-smileyObject.stopServer()
+# smileyObject = smiley({
+#     'shutDownAfterRun': False,
+#     'startServer': True,
+#     'rpcUser': "smileyoinrp",
+#     'rpcPassword': "EAUbvD7ddK7eiS1izojpb9ZgMdqVsb36dL8KAjDKyzL",
+#     'rpcPort': "14243"
+# })
+# print(json.dumps(smileyObject.addcoupon("test", "test",
+#       "test", datetime.now(), 10, "test"), indent=4))
+# smileyObject.stopServer()
