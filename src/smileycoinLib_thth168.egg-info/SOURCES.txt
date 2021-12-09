@@ -1,0 +1,10 @@
+LICENCE
+README.md
+pyproject.toml
+setup.cfg
+src/smileyLib/__init__.py
+src/smileyLib/smileyLib.py
+src/smileycoinLib_thth168.egg-info/PKG-INFO
+src/smileycoinLib_thth168.egg-info/SOURCES.txt
+src/smileycoinLib_thth168.egg-info/dependency_links.txt
+src/smileycoinLib_thth168.egg-info/top_level.txt

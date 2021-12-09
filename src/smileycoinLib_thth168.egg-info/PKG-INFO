@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: smileycoinLib-thth168
+Version: 0.1.1
+Summary: A small smileycoin wrapper package to use smileycoin with python
+Home-page: https://github.com/thth168/smileyLib
+Author: Þröstur Almar Þrastarson, Helga Rún Hjartardóttir, Eyjólfur Brynjar Brynjólfsson
+Author-email: thth168@hi.is
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/thth168/smileyLib/issues
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENCE
+
+# SmileyLib
+
+This is a simple pip package for communicating with the smiley deamon.
+
+## Requirements
+
+Smileycoind has to be set up locally for this to run
+
