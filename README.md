@@ -1,6 +1,7 @@
 # SmileyLib
 
 This is a simple pip package for communicating with the smiley deamon.
+Created by thth168@hi.is, hrh95@hi.is, ebb30@hi.is
 
 ## Installation
 
