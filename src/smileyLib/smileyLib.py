@@ -46,7 +46,7 @@ class smiley:
     def __communicateWithServer(self, method, data=[]):
         data = json.dumps({
             "jsonrpc": "1.0",
-            "id": method + "python_client",
+            "id": method + "_python_client",
             "method": method,
             "params": data
         })
@@ -56,6 +56,10 @@ class smiley:
             auth=(self.rpcUser, self.rpcPassword),
             data=data.encode()
         )
+        if response.status_code != 200:
+            warnings.warn(f'Error communicating with server: {response.status_code}')
+            print(json.dumps(response.json(), indent=4))
+            return None
         return response.json()['result']
 
     def addchapter(self, servicename, chapternumber, chapteraddress):
@@ -271,8 +275,6 @@ class smiley:
 
         * A hex-encoded raw transaction
         """
-        warnings.warn(
-            "Warning: createrawtransaction has not been tested yet...")
         if data:
             addresses.append({'data': base64.b16encode(data)})
         return self.__communicateWithServer('createrawtransaction', [transactions, addresses])
@@ -319,8 +321,6 @@ class smiley:
 
         * A dict containing the transaction data
         """
-        warnings.warn(
-            "Warning: decoderawtransaction has not been tested yet...")
         return self.__communicateWithServer('decoderawtransaction', [hexstring])
 
     def decodescript(self, hexstring):
@@ -434,7 +434,6 @@ class smiley:
 
         * The private key
         """
-        warnings.warn("Warning: dumpprivkey has not been tested yet...")
         return self.__communicateWithServer('dumpprivkey', [smileycoinaddress])
 
     def dumpwallet(self, filename):
@@ -497,7 +496,6 @@ class smiley:
 
         * The account address
         """
-        warnings.warn("Warning: getaccount has not been tested yet...")
         return self.__communicateWithServer('getaccount', [smileycoinaddress])
 
     def getaccountaddress(self, account):
@@ -512,7 +510,6 @@ class smiley:
 
         * The account smileycoin address
         """
-        warnings.warn("Warning: getaccountaddress has not been tested yet...")
         return self.__communicateWithServer('getaccountaddress', [account])
 
     def getaddednodeinfo(self, dns, node):
@@ -547,16 +544,7 @@ class smiley:
 
         * The list of addresses associated with the account
         """
-        warnings.warn(
-            "Warning: getaddressesbyaccount has not been tested yet...")
         return self.__communicateWithServer('getaddressesbyaccount', [account])
-
-    def getaddressbalance(self):
-        """
-        ! WARNING: This function is not implemented at all.
-        """
-        warnings.warn(
-            "Warning: getaddressbalance has not been tested yet, and is not documented in the smileycoin client...")
 
     def getallcouponlists(self):
         """
@@ -636,7 +624,6 @@ class smiley:
 
         * Object containing various state info regarding block chain processing.
         """
-        warnings.warn("Warning: getblockchaininfo has not been tested yet...")
         return self.__communicateWithServer('getblockchaininfo')
 
     def getblockcount(self):
@@ -754,7 +741,6 @@ class smiley:
 
         * The proof-of-work difficulty as a multiple of the minimum difficulty.
         """
-        warnings.warn("Warning: getdifficulty has not been tested yet...")
         return self.__communicateWithServer('getdifficulty')
 
     def getgenerate(self):
@@ -766,7 +752,6 @@ class smiley:
 
         * True or False to indicate if the server is set to generate coins or not.
         """
-        warnings.warn("Warning: getgenerate has not been tested yet...")
         return self.__communicateWithServer('getgenerate')
 
     def gethashespersec(self):
@@ -777,7 +762,6 @@ class smiley:
 
         * The number of hashes per second.
         """
-        warnings.warn("Warning: gethashespersec has not been tested yet...")
         return self.__communicateWithServer('gethashespersec')
 
     def getinfo(self):
@@ -798,7 +782,6 @@ class smiley:
 
         * The list of decrypted messages.
         """
-        warnings.warn("Warning: getmessages has not been tested yet...")
         return self.__communicateWithServer('getmessages')
 
     def getmininginfo(self):
@@ -809,7 +792,6 @@ class smiley:
 
         * Object containing mining-related information.
         """
-        warnings.warn("Warning: getmininginfo has not been tested yet...")
         return self.__communicateWithServer('getmininginfo')
 
     def getnettotals(self):
@@ -820,7 +802,6 @@ class smiley:
 
         * Object containing information about network traffic.
         """
-        warnings.warn("Warning: getnettotals has not been tested yet...")
         return self.__communicateWithServer('getnettotals')
 
     def getnetworkinfo(self):
@@ -831,10 +812,9 @@ class smiley:
 
         * Object containing various state info regarding P2P networking.
         """
-        warnings.warn("Warning: getnetworkinfo has not been tested yet...")
         return self.__communicateWithServer('getnetworkinfo')
 
-    def getnewaddress(self, account=None, pattern=None):
+    def getnewaddress(self, account="", pattern=""):
         """
         Returns a new Smileycoin address for receiving payments.
         If 'account' is specified (recommended), it is added to the address book 
@@ -848,9 +828,7 @@ class smiley:
 
         ## Returns:
         """
-        warnings.warn("Warning: getnewaddress has not been tested yet...")
-        data = [account, pattern] if pattern is None and account is None else [
-            account] if account is not None else []
+        data = [account] if pattern == "" else [account, pattern]
         return self.__communicateWithServer('getnewaddress', data)
 
     def getorglist(self, address):
@@ -876,7 +854,6 @@ class smiley:
 
         * The list of network nodes.
         """
-        warnings.warn("Warning: getpeerinfo has not been tested yet...")
         return self.__communicateWithServer('getpeerinfo')
 
     def getrawchangeaddress(self):
@@ -888,8 +865,6 @@ class smiley:
 
         * The new Smileycoin address.
         """
-        warnings.warn(
-            "Warning: getrawchangeaddress has not been tested yet...")
         return self.__communicateWithServer('getrawchangeaddress')
 
     def getrawmempool(self, verbose=False):
@@ -904,7 +879,6 @@ class smiley:
 
         * The list of transaction ids, or the list of objects if verbose is true.
         """
-        warnings.warn("Warning: getrawmempool has not been tested yet...")
         return self.__communicateWithServer('getrawmempool', [verbose])
 
     def getrawtransaction(self, txid, verbose=False):
@@ -921,7 +895,6 @@ class smiley:
 
         * The raw transaction data, or the object if verbose is true.
         """
-        warnings.warn("Warning: getrawtransaction has not been tested yet...")
         return self.__communicateWithServer('getrawtransaction', [txid, 1 if verbose else 0])
 
     def getreceivedbyaccount(self, account = "", minconf=1):
@@ -938,8 +911,6 @@ class smiley:
 
         * The total amount received by the account.
         """
-        warnings.warn(
-            "Warning: getreceivedbyaccount has not been tested yet...")
         return self.__communicateWithServer('getreceivedbyaccount', [account, minconf])
 
     def getreceivedbyaddress(self, smileycoinaddress, minconf=1):
@@ -956,8 +927,6 @@ class smiley:
 
         * The total amount received by the address.
         """
-        warnings.warn(
-            "Warning: getreceivedbyaddress has not been tested yet...")
         return self.__communicateWithServer('getreceivedbyaddress', [smileycoinaddress, minconf])
 
     def getrichaddresses(self):
@@ -968,7 +937,6 @@ class smiley:
 
         * The list of rich addresses.
         """
-        warnings.warn("Warning: getrichaddresses has not been tested yet...")
         return self.__communicateWithServer('getrichaddresses')
 
     def getserviceaddresses(self):
@@ -979,8 +947,6 @@ class smiley:
 
         * The list of verified addresses.
         """
-        warnings.warn(
-            "Warning: getserviceaddresses has not been tested yet...")
         return self.__communicateWithServer('getserviceaddresses')
 
     def gettransaction(self, txid):
@@ -995,7 +961,6 @@ class smiley:
 
         * The transaction details.
         """
-        warnings.warn("Warning: gettransaction has not been tested yet...")
         return self.__communicateWithServer('gettransaction', [txid])
 
     def gettxout(self, txid, n, includemempool=True):
@@ -1014,7 +979,6 @@ class smiley:
 
         * The transaction output details.
         """
-        warnings.warn("Warning: gettxout has not been tested yet...")
         return self.__communicateWithServer('gettxout', [txid, n, includemempool])
 
     def gettxoutsetinfo(self):
@@ -1026,7 +990,6 @@ class smiley:
 
         * The transaction output statistics.
         """
-        warnings.warn("Warning: gettxoutsetinfo has not been tested yet...")
         return self.__communicateWithServer('gettxoutsetinfo')
 
     def getubilist(self):
@@ -1048,8 +1011,6 @@ class smiley:
 
         * The unconfirmed balance.
         """
-        warnings.warn(
-            "Warning: getunconfirmedbalance has not been tested yet...")
         return self.__communicateWithServer('getunconfirmedbalance')
 
     def getwalletinfo(self):
@@ -1060,7 +1021,6 @@ class smiley:
 
         * The wallet state info.
         """
-        warnings.warn("Warning: getwalletinfo has not been tested yet...")
         return self.__communicateWithServer('getwalletinfo')
 
     def importprivkey(self, smileycoinprivkey, label=None, rescan=True):
@@ -1075,7 +1035,6 @@ class smiley:
 
         * **rescan**: (optional) If true, the wallet will rescan the blockchain looking for transactions.
         """
-        warnings.warn("Warning: importprivkey has not been tested yet...")
         data = [smileycoinprivkey, label, rescan] if label else [
             smileycoinprivkey, rescan]
         return self.__communicateWithServer('importprivkey', data)
@@ -1088,7 +1047,6 @@ class smiley:
 
         * **filename**: The wallet file name.
         """
-        warnings.warn("Warning: importwallet has not been tested yet...")
         return self.__communicateWithServer('importwallet', [filename])
 
     def keypoolrefill(self, newsize=100):
@@ -1099,8 +1057,7 @@ class smiley:
 
         * **newsize**: (optional) The new keypool size.
         """
-        warnings.warn("Warning: keypoolrefill has not been tested yet...")
-        return self.__communicateWithServer('keypoolrefill', [newsize])
+        self.__communicateWithServer('keypoolrefill', [newsize])
 
     def listaccounts(self, minconf=1):
         """
@@ -1114,7 +1071,6 @@ class smiley:
 
         * The account balances.
         """
-        warnings.warn("Warning: listaccounts has not been tested yet...")
         return self.__communicateWithServer('listaccounts', [minconf])
 
     def listaddressgroupings(self):
@@ -1193,9 +1149,10 @@ class smiley:
 
         * The transactions.
         """
-        warnings.warn("Warning: listsinceblock has not been tested yet...")
-        data = [blockhash, target_confirmations] if blockhash is None else []
-        return self.__communicateWithServer('listsinceblock', data)
+        if blockhash:
+            return self.__communicateWithServer('listsinceblock', [blockhash, target_confirmations])
+        else:
+            return self.__communicateWithServer('listsinceblock')
 
     def listtransactions(self, account, count=10, skip=0):
         """
@@ -1362,7 +1319,6 @@ class smiley:
 
         * The transaction hash in hex.
         """
-        warnings.warn("Warning: sendrawtransaction has not been tested yet...")
         return self.__communicateWithServer('sendrawtransaction', [hex, allowhighfees])
 
     def sendtoaddress(self, smileycoinaddress, amount, comment="", commentto=""):
@@ -1383,7 +1339,6 @@ class smiley:
 
         * The transaction id.
         """
-        warnings.warn("Warning: sendtoaddress has not been tested yet...")
         return self.__communicateWithServer('sendtoaddress', [smileycoinaddress, amount, comment, commentto])
 
     def setaccount(self, smileycoinaddress, account):
@@ -1474,8 +1429,9 @@ class smiley:
 
         * The signed transaction in hex.
         """
-        warnings.warn("Warning: signrawtransaction has not been tested yet...")
-        data = [x for x in [hexstring, prevtxs, privkeys, sighashtype] if x]
+        data = [x for x in [hexstring, prevtxs, privkeys] if x is not None]
+        if len(data) == 3:
+            data.append(sighashtype)
         return self.__communicateWithServer('signrawtransaction', data)
 
     def submitblock(self, hexdata, jsonparameters=None):
@@ -1558,13 +1514,12 @@ class smiley:
         atexit.register(self.stopServer)
 
 
-# smileyObject = smiley({
-#     'shutDownAfterRun': False,
-#     'startServer': True,
-#     'rpcUser': "smileyoinrp",
-#     'rpcPassword': "EAUbvD7ddK7eiS1izojpb9ZgMdqVsb36dL8KAjDKyzL",
-#     'rpcPort': "14243"
-# })
-# print(json.dumps(smileyObject.addcoupon("test", "test",
-#       "test", datetime.now(), 10, "test"), indent=4))
-# smileyObject.stopServer()
+smileyObject = smiley({
+    'shutDownAfterRun': False,
+    'startServer': False,
+    'rpcUser': "smileyoinrp",
+    'rpcPassword': "EAUbvD7ddK7eiS1izojpb9ZgMdqVsb36dL8KAjDKyzL",
+    'rpcPort': "14242"
+})
+
+print(json.dumps(smileyObject.listsinceblock(), indent=4))
